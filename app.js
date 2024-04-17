@@ -1,5 +1,9 @@
 const express = require('express');
-const models = require("./app/models/index.js");
+const cors = require('cors');
 const app = express();
+const router = require("./app/routes/index.js");
+
+app.use(express.json());
+app.use("/api", router);
 
 module.exports = app;
