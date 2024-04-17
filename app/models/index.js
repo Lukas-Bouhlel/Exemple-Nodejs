@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/test')
-  .then(() => console.log('Connected!'));
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connexion à MongoDB établie avec succès'))
+  .catch(err => console.error('Erreur de connexion à MongoDB :', err));

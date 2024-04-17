@@ -1,5 +1,5 @@
 const express = require('express');
-const router = require("./app/routes/index.js");
+const models = require("./app/models/index.js");
 const app = express();
 
 module.exports = app;
