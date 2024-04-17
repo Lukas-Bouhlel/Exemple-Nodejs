@@ -1,7 +1,16 @@
 const mongoose = require('mongoose');
 
 const accountLineSchema = new mongoose.Schema({
-  date: { type: Date, default: Date.now },
+  label: { type: String },
+  type: { type: String },
+  amount: { type: String },
+  date: { type: Date },
+  method: { type: String },
+  isPassed: { type: Boolean },
+  category: { type: String },
+  account: { type: String },
+  lastUpdated: { type: Date },
 });
 
-module.exports = mongoose.model('AccountLine', accountLineSchema);
+const AccountLine = mongoose.model('AccountLine', accountLineSchema);
+module.exports = AccountLine;
