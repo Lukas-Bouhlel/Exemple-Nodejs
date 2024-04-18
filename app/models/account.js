@@ -21,5 +21,15 @@ const accountSchema = new mongoose.Schema({
     }
 });
 
+accountSchema.pre('save', function (next) {
+    this.lastUpdated = Date.now();
+    next();
+});
+
+accountSchema.pre('findOneAndUpdate', function (next) {
+    this.set({ lastUpdated: Date.now() });
+    next();
+});
+
 const Account = mongoose.model('Account', accountSchema);
 module.exports = Account;

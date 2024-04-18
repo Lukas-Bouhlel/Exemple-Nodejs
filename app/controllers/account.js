@@ -1,9 +1,8 @@
 const Account = require('../models/account');
 
-// Fonction pour récupérer tous les comptes
 exports.readAll = async (req, res) => {
     try {
-        const accounts = await Account.find();
+        const accounts = await Account.find({ user: req.auth.userId }); 
         res.status(200).json(accounts);
     } catch (error) {
         res.status(500).json({ 
@@ -12,12 +11,14 @@ exports.readAll = async (req, res) => {
     }
 };
 
-// Fonction pour créer un nouveau compte
-exports.createAccount = async (req, res) => {
+exports.create = async (req, res) => {
     try {
-        const { bankName, customName, userId } = req.body;
-        const newAccount = new Account({ bankName, customName, user: userId });
+        const { bankName, customName } = req.body;
+
+        const newAccount = new Account({ bankName, customName, user: req.auth.userId });
+
         await newAccount.save();
+
         res.status(201).json(newAccount);
     } catch (error) {
         res.status(500).json({ 
@@ -26,13 +27,28 @@ exports.createAccount = async (req, res) => {
     }
 };
 
-// Fonction pour mettre à jour un compte existant
-exports.updateAccount = async (req, res) => {
+exports.update = async (req, res) => {
     try {
-        const accountId = req.params.id;
         const { bankName, customName } = req.body;
-        const updatedAccount = await Account.findByIdAndUpdate(accountId, { bankName, customName }, { new: true });
-        res.status(200).json(updatedAccount);
+        const accountUpdate = await Account.findOneAndUpdate(
+            { 
+                _id: req.params.id, 
+                user: req.auth.userId 
+            },
+            {
+                bankName,
+                customName
+            },
+            { 
+                new: true 
+            }
+        );
+
+        if (!accountUpdate) {
+            return res.status(404).json({ message: 'Une erreur est survenue lors de la mise à jour du compte.' });
+        }
+
+        res.status(200).json(accountUpdate);
     } catch (error) {
         res.status(500).json({ 
             message: error.message || 'Une erreur est survenue lors de la mise à jour du compte.' 
@@ -40,8 +56,7 @@ exports.updateAccount = async (req, res) => {
     }
 };
 
-// Fonction pour supprimer un compte existant
-exports.deleteAccount = async (req, res) => {
+exports.delete = async (req, res) => {
     try {
         const accountId = req.params.id;
         await Account.findByIdAndDelete(accountId);

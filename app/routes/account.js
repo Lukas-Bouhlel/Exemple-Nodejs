@@ -5,10 +5,10 @@ const auth = require("../middleware/auth.js");
 
 router.get("/", auth, accountCtrl.readAll);
 
-router.post("/", auth, accountCtrl.createAccount);
+router.post("/", auth, accountCtrl.create);
 
-router.put("/:id", auth, accountCtrl.updateAccount);
+router.put("/:id", auth, accountCtrl.update);
 
-router.delete("/:id", auth, accountCtrl.deleteAccount);
+router.delete("/:id", auth, accountCtrl.delete);
 
 module.exports = router;
