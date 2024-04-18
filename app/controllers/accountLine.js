@@ -1,4 +1,4 @@
-const { AccountLine } = require('../models/accountLine');
+const AccountLine = require('../models/accountLine');
 
 // Fonction pour récupérer toutes les lignes de compte
 exports.readAll = async (req, res) => {

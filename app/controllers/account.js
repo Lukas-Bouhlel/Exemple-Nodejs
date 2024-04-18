@@ -1,4 +1,4 @@
-const Account  = require('../models/account');
+const Account = require('../models/account');
 
 // Fonction pour récupérer tous les comptes
 exports.readAll = async (req, res) => {
