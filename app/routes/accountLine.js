@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express();
 const accountLineCtrl = require("../controllers/accountLine.js");
+const auth = require("../middleware/auth.js");
 
-router.get("/", accountLineCtrl.readAll);
+router.get("/", auth, accountLineCtrl.readAll);
 
-router.post("/", accountLineCtrl.createAccountLine);
+router.post("/", auth, accountLineCtrl.createAccountLine);
 
-router.put("/:id", accountLineCtrl.updateAccountLine);
+router.put("/:id", auth, accountLineCtrl.updateAccountLine);
 
-router.delete("/:id", accountLineCtrl.deleteAccountLine);
+router.delete("/:id", auth, accountLineCtrl.deleteAccountLine);
 
 module.exports = router;
